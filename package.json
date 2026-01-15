@@ -12,15 +12,28 @@
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
     "compile": "vue-tsc --noEmit",
-    "postinstall": "wxt prepare"
+    "postinstall": "wxt prepare",
+    "spellcheck": "cspell src/**/*.*",
+    "commit": "git-cz",
+    "prepare": "husky"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-git",
+      "useEmoji": true
+    }
   },
   "dependencies": {
-    "vue": "^3.5.25"
+    "vue": "^3.5.26",
+    "@commitlint/config-conventional": "^20.3.1",
+    "@tailwindcss/vite": "^4.1.18",
+    "husky": "^9.1.7",
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
     "@wxt-dev/module-vue": "^1.0.3",
     "typescript": "^5.9.3",
-    "vue-tsc": "^3.1.8",
-    "wxt": "^0.20.6"
+    "vue-tsc": "^3.2.2",
+    "wxt": "^0.20.13"
   }
 }
