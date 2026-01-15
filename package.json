@@ -13,6 +13,10 @@
     "zip:firefox": "wxt zip -b firefox",
     "compile": "vue-tsc --noEmit",
     "postinstall": "wxt prepare",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
     "spellcheck": "cspell src/**/*.*",
     "commit": "git-cz",
     "prepare": "husky"
@@ -32,6 +36,8 @@
   },
   "devDependencies": {
     "@wxt-dev/module-vue": "^1.0.3",
+    "oxfmt": "^0.24.0",
+    "oxlint": "^1.39.0",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.2.2",
     "wxt": "^0.20.13"

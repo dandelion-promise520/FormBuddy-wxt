@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "ignorePatterns": [
+    "dist/**",
+    "public/**",
+    "assets/**",
+    ".vscode/**",
+    ".husky/**",
+    "bun.lock",
+    "package.json",
+    "README.md"
+  ]
+}
