@@ -9,5 +9,11 @@
     "bun.lock",
     "package.json",
     "README.md"
-  ]
+  ],
+  "experimentalTailwindcss": {
+    "attributes": ["class", "className"],
+    "functions": ["clsx", "cn"],
+    "preserveDuplicates": false,
+    "preserveWhitespace": false
+  }
 }

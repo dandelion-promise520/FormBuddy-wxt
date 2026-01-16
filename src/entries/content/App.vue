@@ -1,14 +1,9 @@
 <template>
-  <div id="app">app</div>
+  <div id="app" class="">app</div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import "./style.css";
+</script>
 
-<style scoped>
-#app {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-}
-</style>
+<style scoped></style>

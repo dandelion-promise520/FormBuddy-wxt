@@ -3215,6 +3215,14 @@ var content = (function() {
       vnode.transition = hooks;
     }
   }
+  // @__NO_SIDE_EFFECTS__
+  function defineComponent(options, extraOptions) {
+    return isFunction(options) ? (
+      // #8236: extend call and options.name access are considered side-effects
+      // by Rollup, so we have to wrap it in a pure-annotated IIFE.
+      /* @__PURE__ */ (() => extend({ name: options.name }, extraOptions, { setup: options }))()
+    ) : options;
+  }
   function markAsyncBoundary(instance) {
     instance.ids = [instance.ids[0] + instance.ids[2]++ + "-", 0, 0];
   }
@@ -8245,6 +8253,15 @@ Expected function or array of functions, received type ${typeof value}.`
   {
     initDev();
   }
+  const _sfc_main = /* @__PURE__ */ defineComponent({
+    __name: "App",
+    setup(__props, { expose: __expose }) {
+      __expose();
+      const __returned__ = {};
+      Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+      return __returned__;
+    }
+  });
   const _export_sfc = (sfc, props) => {
     const target = sfc.__vccOpts || sfc;
     for (const [key, val] of props) {
@@ -8252,12 +8269,14 @@ Expected function or array of functions, received type ${typeof value}.`
     }
     return target;
   };
-  const _sfc_main = {};
-  const _hoisted_1 = { id: "app" };
-  function _sfc_render(_ctx, _cache) {
+  const _hoisted_1 = {
+    id: "app",
+    class: ""
+  };
+  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     return openBlock(), createElementBlock("div", _hoisted_1, "app");
   }
-  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-290a675e"], ["__file", "D:/workSpace/Code/Project/FormBuddy-wxt/src/entries/content/App.vue"]]);
+  const App = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "D:/workSpace/Code/Project/FormBuddy-wxt/src/entries/content/App.vue"]]);
   const definition = defineContentScript({
     matches: ["<all_urls>"],
     cssInjectionMode: "ui",
