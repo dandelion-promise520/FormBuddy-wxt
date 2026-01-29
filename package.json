@@ -18,6 +18,7 @@
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "spellcheck": "cspell src/**/*.*",
+    "check": "pnpm format && pnpm lint:fix && pnpm spellcheck",
     "commit": "git-cz",
     "prepare": "husky"
   },
@@ -28,11 +29,12 @@
     }
   },
   "dependencies": {
-    "vue": "^3.5.26",
     "@commitlint/config-conventional": "^20.3.1",
     "@tailwindcss/vite": "^4.1.18",
+    "element-plus": "^2.13.1",
     "husky": "^9.1.7",
-    "tailwindcss": "^4.1.18"
+    "tailwindcss": "^4.1.18",
+    "vue": "^3.5.26"
   },
   "devDependencies": {
     "@wxt-dev/module-vue": "^1.0.3",

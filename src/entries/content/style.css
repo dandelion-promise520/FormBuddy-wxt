@@ -1,5 +1,0 @@
-@import "tailwindcss";
-
-body {
-  @apply fixed top-1/2 left-1/2 flex size-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center bg-pink-300;
-}

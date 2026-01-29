@@ -1,0 +1,38 @@
+{
+  "import": ["@cspell/dict-lorem-ipsum/cspell-ext.json"],
+  "caseSensitive": false,
+  "dictionaries": ["custom-dictionary"],
+  "dictionaryDefinitions": [
+    {
+      "name": "custom-dictionary",
+      "path": "./.cspell/custom-dictionary.txt",
+      "addWords": true
+    }
+  ],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/build/**",
+    "**/lib/**",
+    "**/docs/**",
+    "**/vender/**",
+    "**/public/**",
+    "**/static/**",
+    "**/dist/**",
+    "**/tmp/**",
+    "**/assets/**",
+    "**/*.d.ts",
+    "**/package.json",
+    "**/*.md",
+    "**/stats.html",
+    ".gitignore",
+    "cspell.json",
+    "commitlint.config.js",
+    "biome.json",
+    ".cspell",
+    ".oxlintrc.json",
+    ".oxfmtrc.json",
+    "electron-builder.yml",
+    "pnpm-lock.yaml",
+    ".env.*"
+  ]
+}
