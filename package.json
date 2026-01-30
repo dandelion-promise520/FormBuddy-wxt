@@ -30,9 +30,11 @@
   },
   "dependencies": {
     "@commitlint/config-conventional": "^20.3.1",
+    "@element-plus/icons-vue": "^2.3.2",
     "@tailwindcss/vite": "^4.1.18",
     "element-plus": "^2.13.1",
     "husky": "^9.1.7",
+    "nanoid": "^5.1.6",
     "tailwindcss": "^4.1.18",
     "vue": "^3.5.26"
   },

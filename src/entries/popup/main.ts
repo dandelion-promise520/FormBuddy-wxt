@@ -9,4 +9,7 @@ import App from "./App.vue";
 const app = createApp(App);
 app.use(ElementPlus);
 
-app.mount("#app");
+// 防止等待动画闪烁
+setTimeout(() => {
+  app.mount("#app");
+}, 300);

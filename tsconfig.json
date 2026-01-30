@@ -1,3 +1,9 @@
 {
-  "extends": "./.wxt/tsconfig.json"
+  "extends": "./.wxt/tsconfig.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "moduleResolution": "bundler",
+    "types": ["element-plus/global"]
+  },
+  "include": ["src", ".wxt/wxt.d.ts"]
 }
