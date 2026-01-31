@@ -6,15 +6,15 @@
     </header>
 
     <Sortable
-      :data="dataArray"
+      :data="userInfos"
       @drag-end="({ store, payload }) => handleDragEnd({ store, payload })"
     >
       <TransitionGroup name="task-list" tag="div">
         <SortableItem
-          v-for="(data, index) in dataArray"
+          v-for="(data, index) in userInfos"
           :key="data.id"
           :index="index"
-          :source="dataArray"
+          :source="userInfos"
           class="flex items-center justify-between gap-2"
         >
           <template #default="{ handleDragStart }">
@@ -38,8 +38,9 @@
             <el-input
               placeholder="可以填写您的常用信息"
               v-model="data.value"
-              :disabled="!data.isEdit"
+              :disabled="!data.editing"
               @blur="handleBlur(data)"
+              @keyup.enter="handleBlur(data)"
             />
 
             <!-- 按钮组部分 -->
@@ -74,51 +75,51 @@ import { IDnDPayload, IDnDStore } from "@vue-dnd-kit/core";
 import { nanoid } from "nanoid";
 import { TransitionGroup } from "vue";
 
-interface DataProp {
+interface UserInfo {
   id: string;
   value: string;
-  isEdit: boolean;
+  editing: boolean;
 }
 
 // 表单数据
-const dataArray = ref<DataProp[]>([]);
+const userInfos = ref<UserInfo[]>([]);
 
 // 定义表单数据的存储值
-const dataStorage = storage.defineItem<DataProp[]>("local:data");
+const dataStorage = storage.defineItem<UserInfo[]>("local:userInfos");
 
 // 页面挂载时将存储值赋值给表单数据
 onMounted(async () => {
-  dataArray.value = (await dataStorage.getValue()) ||
+  userInfos.value = (await dataStorage.getValue()) ||
     // 初始化时本地存储没有值则采用默认值
     [
-      { id: nanoid(), isEdit: false, value: "可以填您的qq号" },
-      { id: nanoid(), isEdit: false, value: "可以填您的手机号" },
+      { id: nanoid(), editing: false, value: "可以填您的qq号" },
+      { id: nanoid(), editing: false, value: "可以填您的手机号" },
     ];
 });
 
 // 新增表单
 const handleAdd = async () => {
-  const array = dataArray.value;
+  const array = userInfos.value;
 
   // 给array push一下
-  array.push({ id: nanoid(), isEdit: false, value: "" });
+  array.push({ id: nanoid(), editing: false, value: "" });
 
-  dataArray.value = array;
+  userInfos.value = array;
 };
 
 // 拖拽完成之后重新存一下数组，使得下次刷新时是拖拽后的排序
 const handleDragEnd = async ({ payload }: { store: IDnDStore; payload: IDnDPayload }) => {
-  await dataStorage.setValue(toRaw(payload.items[0].data?.source as DataProp[]));
+  await dataStorage.setValue(toRaw(payload.items[0].data?.source as UserInfo[]));
 };
 
 // 输入框失焦
-const handleBlur = async (data: DataProp) => {
-  data.isEdit = false;
-  await dataStorage.setValue(toRaw(dataArray.value));
+const handleBlur = async (data: UserInfo) => {
+  data.editing = false;
+  await dataStorage.setValue(toRaw(userInfos.value));
 };
 
 // 填充按钮
-const handleFill = async (data: DataProp) => {
+const handleFill = async (data: UserInfo) => {
   try {
     const tabs = await browser.tabs.query({ active: true, currentWindow: true });
     const tab = tabs[0];
@@ -132,14 +133,14 @@ const handleFill = async (data: DataProp) => {
 };
 
 // 编辑按钮
-const handleEdit = (data: DataProp) => {
-  data.isEdit = true;
+const handleEdit = (data: UserInfo) => {
+  data.editing = true;
 };
 
 // 删除此表单
-const handleDelete = async (data: DataProp) => {
-  dataArray.value = toRaw(dataArray.value).filter((item) => item.id !== data.id);
-  await dataStorage.setValue(toRaw(dataArray.value));
+const handleDelete = async (data: UserInfo) => {
+  userInfos.value = toRaw(userInfos.value).filter((item) => item.id !== data.id);
+  await dataStorage.setValue(toRaw(userInfos.value));
 };
 </script>
 

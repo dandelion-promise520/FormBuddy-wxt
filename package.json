@@ -18,7 +18,7 @@
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "spellcheck": "cspell src/**/*.*",
-    "check": "pnpm format && pnpm lint:fix && pnpm spellcheck",
+    "check": "bun fmt && bun lint:fix && bun spellcheck",
     "commit": "git-cz",
     "prepare": "husky"
   },
