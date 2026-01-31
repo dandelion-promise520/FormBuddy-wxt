@@ -30,6 +30,7 @@
             <!-- 提示按键部分 -->
             <kbd
               class="center rounded-md border border-gray-300 bg-gray-100 px-2 py-1 text-sm font-medium text-nowrap text-gray-800 shadow-[inset_0_-1px_0_#d1d5db] dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:shadow-[inset_0_-1px_0_#374151]"
+              @pointerdown="handleDragStart"
             >
               alt+ {{ index + 1 }}
             </kbd>
@@ -46,6 +47,7 @@
             <!-- 按钮组部分 -->
             <div class="flex">
               <el-button type="primary" @click="handleFill(data)">填充</el-button>
+              <el-button type="warning" @click="handleCopy(data)">复制</el-button>
               <el-button type="success" @click="handleEdit(data)">编辑</el-button>
               <el-popconfirm
                 cancel-button-text="取消"
@@ -72,24 +74,20 @@
 <script setup lang="ts">
 import { Sortable, SortableItem } from "@/components/sortable";
 import { IDnDPayload, IDnDStore } from "@vue-dnd-kit/core";
+import { ElMessage } from "element-plus";
 import { nanoid } from "nanoid";
 import { TransitionGroup } from "vue";
-
-interface UserInfo {
-  id: string;
-  value: string;
-  editing: boolean;
-}
+import { UserInfo } from "@/types";
 
 // 表单数据
 const userInfos = ref<UserInfo[]>([]);
 
 // 定义表单数据的存储值
-const dataStorage = storage.defineItem<UserInfo[]>("local:userInfos");
+const userInfoStorage = storage.defineItem<UserInfo[]>("local:userInfos");
 
 // 页面挂载时将存储值赋值给表单数据
 onMounted(async () => {
-  userInfos.value = (await dataStorage.getValue()) ||
+  userInfos.value = (await userInfoStorage.getValue()) ||
     // 初始化时本地存储没有值则采用默认值
     [
       { id: nanoid(), editing: false, value: "可以填您的qq号" },
@@ -101,6 +99,8 @@ onMounted(async () => {
 const handleAdd = async () => {
   const array = userInfos.value;
 
+  if (array.length >= 9) return ElMessage.error("数据项不能超过9个");
+
   // 给array push一下
   array.push({ id: nanoid(), editing: false, value: "" });
 
@@ -109,13 +109,13 @@ const handleAdd = async () => {
 
 // 拖拽完成之后重新存一下数组，使得下次刷新时是拖拽后的排序
 const handleDragEnd = async ({ payload }: { store: IDnDStore; payload: IDnDPayload }) => {
-  await dataStorage.setValue(toRaw(payload.items[0].data?.source as UserInfo[]));
+  await userInfoStorage.setValue(toRaw(payload.items[0].data?.source as UserInfo[]));
 };
 
 // 输入框失焦
 const handleBlur = async (data: UserInfo) => {
   data.editing = false;
-  await dataStorage.setValue(toRaw(userInfos.value));
+  await userInfoStorage.setValue(toRaw(userInfos.value));
 };
 
 // 填充按钮
@@ -132,6 +132,10 @@ const handleFill = async (data: UserInfo) => {
   }
 };
 
+// 复制按钮
+const handleCopy = async (data: UserInfo) => {
+  await navigator.clipboard.writeText(data.value);
+};
 // 编辑按钮
 const handleEdit = (data: UserInfo) => {
   data.editing = true;
@@ -140,7 +144,7 @@ const handleEdit = (data: UserInfo) => {
 // 删除此表单
 const handleDelete = async (data: UserInfo) => {
   userInfos.value = toRaw(userInfos.value).filter((item) => item.id !== data.id);
-  await dataStorage.setValue(toRaw(userInfos.value));
+  await userInfoStorage.setValue(toRaw(userInfos.value));
 };
 </script>
 

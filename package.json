@@ -1,8 +1,8 @@
 {
-  "name": "wxt-vue-starter",
-  "description": "manifest.json description",
+  "name": "快速填充表单工具",
+  "description": "一款现代轻量的浏览器插件，辅助您在浏览器中方便填写您的常用信息",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "wxt",

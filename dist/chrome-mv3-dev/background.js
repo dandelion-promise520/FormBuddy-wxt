@@ -4,13 +4,12 @@ var background = (function() {
     if (arg == null || typeof arg === "function") return { main: arg };
     return arg;
   }
-  const browser$1 = globalThis.browser?.runtime?.id ? globalThis.browser : globalThis.chrome;
-  const browser = browser$1;
   const definition = defineBackground(() => {
-    console.log("Hello background!", { id: browser.runtime.id });
   });
   function initPlugins() {
   }
+  const browser$1 = globalThis.browser?.runtime?.id ? globalThis.browser : globalThis.chrome;
+  const browser = browser$1;
   var _MatchPattern = class {
     constructor(matchPattern) {
       if (matchPattern === "<all_urls>") {
