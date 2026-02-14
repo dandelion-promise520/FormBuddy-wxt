@@ -6,6 +6,7 @@
     </header>
 
     <Sortable
+      v-if="userInfos.length !== 0"
       :data="userInfos"
       @drag-end="({ store, payload }) => handleDragEnd({ store, payload })"
     >
@@ -68,6 +69,8 @@
         </SortableItem>
       </TransitionGroup>
     </Sortable>
+
+    <section v-else class="center p-4 font-serif text-xl text-gray-400">暂无数据</section>
   </div>
 </template>
 
@@ -127,14 +130,16 @@ const handleFill = async (data: UserInfo) => {
     if (!tab.id) return;
 
     await browser.tabs.sendMessage(tab.id, data.value);
-  } catch (err) {
-    console.warn("填充失败：当前页面未注入脚本", err);
+    ElMessage.success("填充成功");
+  } catch {
+    ElMessage.error("请刷新页面重试");
   }
 };
 
 // 复制按钮
 const handleCopy = async (data: UserInfo) => {
   await navigator.clipboard.writeText(data.value);
+  ElMessage.success("复制成功");
 };
 // 编辑按钮
 const handleEdit = (data: UserInfo) => {
@@ -145,6 +150,7 @@ const handleEdit = (data: UserInfo) => {
 const handleDelete = async (data: UserInfo) => {
   userInfos.value = toRaw(userInfos.value).filter((item) => item.id !== data.id);
   await userInfoStorage.setValue(toRaw(userInfos.value));
+  ElMessage.success("删除成功");
 };
 </script>
 
